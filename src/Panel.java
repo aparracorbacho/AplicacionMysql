@@ -171,14 +171,8 @@ public class Panel extends javax.swing.JFrame {
                 String sql = "insert into tabla (nombre,curso) values ('"+nombrei+"','"+cursoi+"')";
                 curso.setText("");
                 nombre.setText("");
-                String sql2 = "SELECT count(*) FROM tabla";
-                ResultSet rs = stmt.executeQuery(sql2);
-                 while(rs.next()){
-                     int contador = rs.getInt(1);
-                     if (contador>9){
-                         JOptionPane.showMessageDialog( null, "Ya hay demasiados alumnos, no pueden ir mas de 10", "Error", JOptionPane.ERROR_MESSAGE);
-                     } else { stmt.executeUpdate(sql); }
-                 }    
+                stmt.executeUpdate(sql); 
+                JOptionPane.showMessageDialog(null,"Alumno Agregado");    
             } catch (SQLException ex) {
                 Logger.getLogger(Panel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -228,6 +222,16 @@ public class Panel extends javax.swing.JFrame {
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
         // Modificar alumno
         String modificar = JOptionPane.showInputDialog("Introduce el nombre del alumno a modificar");
+        String modificar2 = JOptionPane.showInputDialog("Introduce el nuevo curso del alumno");
+        try {
+                conn = (Connection) DriverManager.getConnection(url, login, password);
+                stmt = conn.createStatement();
+                String sql = "UPDATE tabla set curso = '"+modificar2+"' where nombre='"+modificar+"'";
+                stmt.executeUpdate(sql);
+                JOptionPane.showMessageDialog(null,"Alumno modificado");
+            } catch (SQLException ex) {
+                Logger.getLogger(Panel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         
     }//GEN-LAST:event_modificarActionPerformed
 
